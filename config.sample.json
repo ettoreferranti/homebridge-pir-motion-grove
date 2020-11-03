@@ -10,9 +10,9 @@
 
   "accessories": [
     {
-      "accessory": "Motion Sensor",
+      "accessory": "GroveMotionSensor",
       "name": "Pi Motion Sensor",
-      "pirPin": 4
+      "pirPin": 3
     }
   ],
 
