@@ -25,7 +25,8 @@
   "author": "Ettore Ferranti <ettore.ferranti@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "grovepi": "^3.0.0"
+    "grovepi": "^3.0.0",
+    "i2c-bus": "^5.2.1"
   },
   "devDependencies": {
     "eslint": "^4.13.1",
