@@ -2,12 +2,12 @@ var GrovePi = require('grovepi').GrovePi
 var DigitalSensor = GrovePi.sensors.base.Digital
 var commands = GrovePi.commands
 
-function MotionDigitalSensor(pin) {
+function PirMotionSensor(pin) {
   DigitalSensor.apply(this, Array.prototype.slice.call(arguments))
 }
-MotionDigitalSensor.prototype = new DigitalSensor()
+PirMotionSensor.prototype = new DigitalSensor()
 
-MotionDigitalSensor.prototype.read = function() {
+PirMotionSensor.prototype.read = function() {
   var write = this.board.writeBytes(commands.dRead.concat([this.pin, commands.unused, commands.unused]))
   if (write) 
   {
@@ -22,4 +22,4 @@ MotionDigitalSensor.prototype.read = function() {
   }
 }
 
-module.exports = MotionDigitalSensor
+module.exports = PirMotionSensor
