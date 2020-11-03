@@ -1,5 +1,5 @@
 var GrovePi = require('grovepi').GrovePi
-var MotionSensor = require('./motionSensor')
+var PirMotionSensor = require('./motionSensor')
 var Board = GrovePi.board
 
 let Service, Characteristic;
@@ -51,7 +51,7 @@ class MotionSensor {
             {
               console.log('GrovePi Version :: ' + board.version())
               board.pinMode(board.INPUT)
-              var motionSensor = new MotionSensor(this.pirPin)
+              var motionSensor = new PirMotionSensor(this.pirPin)
               console.log('Motion Sensor (start watch)')
               
               motionSensor.on('change', function(res) 
@@ -75,12 +75,7 @@ class MotionSensor {
       
       board.init()
 
-    gpio.on('change', (channel, value) => {
-      if (channel === this.pirPin) {
-        this.motionDetected = value;
-        this.service.setCharacteristic(Characteristic.MotionDetected, this.motionDetected);
-      }
-    });
+    
 
     this.service
       .getCharacteristic(Characteristic.Name)
