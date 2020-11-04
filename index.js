@@ -26,7 +26,7 @@ class MotionSensor {
           console.log('Something wrong just happened');
           console.log(err);
         },
-        onInit: MotionSensor.initMethod
+        onInit: initMethod
     });
       
     board.init();
