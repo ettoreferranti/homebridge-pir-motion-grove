@@ -23,35 +23,37 @@ class MotionSensor {
     callback(null);
   }
 
-  motionError = function(err) 
+  motionError(err) 
   {
     this.log('Something wrong just happened')
     this.log(err)
   }
 
-  motionInit = function()
+  motionInit()
   {
     this.log('GrovePi Version :: ' + board.version())
     board.pinMode(board.INPUT)
     var motionSensor = new PirMotionSensor(3)
     this.log('Motion Sensor (start watch)')
     
-    motionSensor.on('change', function(res) 
-    {
-      if (res)
-      {
-        this.log('Motion Sensor: motion detected')
-        this.motionDetected = true;
-        this.service.setCharacteristic(Characteristic.MotionDetected, this.motionDetected);
-      }
-      else
-      {
-        this.motionDetected = false;
-        this.service.setCharacteristic(Characteristic.MotionDetected, this.motionDetected);
-      }
-    })
+    motionSensor.on('change', motionChange(res))
 
     motionSensor.watch()
+  }
+
+  motionChange(res)
+  {
+    if (res)
+    {
+      this.log('Motion Sensor: motion detected')
+      this.motionDetected = true;
+      this.service.setCharacteristic(Characteristic.MotionDetected, this.motionDetected);
+    }
+    else
+    {
+      this.motionDetected = false;
+      this.service.setCharacteristic(Characteristic.MotionDetected, this.motionDetected);
+    }
   }
 
   getServices() {
