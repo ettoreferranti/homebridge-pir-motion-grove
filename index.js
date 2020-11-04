@@ -26,29 +26,30 @@ class MotionSensor {
           console.log('Something wrong just happened');
           console.log(err);
         },
-        onInit: function(res)
-        {
-          if (res) 
-          {
-            console.log('GrovePi Version :: ' + board.version());
-            board.pinMode(board.INPUT);
-            var motionSensor = new PirMotionSensor(3);
-            console.log('Motion Sensor (start watch)');
-    
-            motionSensor.on('change', function(res) 
-            {
-              if (res)
-              {
-                console.log('Motion detected')
-              }
-            })
-
-            motionSensor.watch();
-          }
-        }
+        onInit: MotionSensor.initMethod
     });
       
     board.init();
+  }
+
+  initMethod(res)
+  {
+    if (res) 
+    {
+      console.log('GrovePi Version :: ' + board.version());
+      board.pinMode(board.INPUT);
+      var motionSensor = new PirMotionSensor(3);
+      console.log('Motion Sensor (start watch)');
+
+      motionSensor.on('change', function(res) 
+      {
+        if (res)
+        {
+          console.log('Motion detected')
+        }
+      })
+      motionSensor.watch();
+    }
   }
 
   identify(callback) 
