@@ -28,32 +28,28 @@ class MotionSensor {
         },
         onInit: this.initMethod
     });
-    console.log(this.name + ": CONSTRUCTOR FINISHED");
-  }
 
-  startSensor()
-  {
-    console.log(this.name + ": CALLING START");
     this.board.init();
+
+    this.motionSensor = new PirMotionSensor(this.pirPin);
+    this.log('Motion Sensor (start watch)');
+
+    this.motionSensor.on('change', function(res) 
+    {
+      if (res)
+      {
+        this.log('Motion detected')
+      }
+    })
+    this.motionSensor.watch();
   }
 
   initMethod(res)
   {
     if (res) 
     {
-      console.log('GrovePi Version :: ' + this.board.version());
-      this.board.pinMode(this.board.INPUT);
-      this.motionSensor = new PirMotionSensor(this.pirPin);
-      console.log('Motion Sensor (start watch)');
-
-      this.motionSensor.on('change', function(res) 
-      {
-        if (res)
-        {
-          console.log('Motion detected')
-        }
-      })
-      this.motionSensor.watch();
+      console.log('GrovePi Version :: ' + this.version());
+      this.pinMode(this.INPUT);
     }
   }
 
