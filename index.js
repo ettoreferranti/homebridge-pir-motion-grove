@@ -11,11 +11,6 @@ module.exports = function(homebridge) {
 };
 
 class MotionSensor {
-  board = null;
-  log = null;
-  pirPin = 0;
-  motionDetected = false;
-  motionSensor = null;
 
   constructor(log, config) 
   {
@@ -33,12 +28,12 @@ class MotionSensor {
         },
         onInit: this.initMethod
     });
-    console.log("CONSTRUCTOR FINISHED");
+    console.log(this.name + ": CONSTRUCTOR FINISHED");
   }
 
   startSensor()
   {
-    console.log("CALLING START");
+    console.log(this.name + ": CALLING START");
     this.board.init();
   }
 
