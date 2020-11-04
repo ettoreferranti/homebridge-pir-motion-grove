@@ -32,7 +32,7 @@ class MotionSensor {
     this.motionSensor = new PirMotionSensor(this.pirPin);
     this.log('Motion Sensor (start watch)');
     
-    this.motionSensor.on('change', this.motionChange(res));
+    this.motionSensor.on('change', this.motionChange);
 
     this.motionSensor.watch();
   }
