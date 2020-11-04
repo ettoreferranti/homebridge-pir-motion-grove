@@ -23,6 +23,37 @@ class MotionSensor {
     callback(null);
   }
 
+  motionError = function(err) 
+  {
+    this.log('Something wrong just happened')
+    this.log(err)
+  }
+
+  motionInit = function()
+  {
+    this.log('GrovePi Version :: ' + board.version())
+    board.pinMode(board.INPUT)
+    var motionSensor = new PirMotionSensor(3)
+    this.log('Motion Sensor (start watch)')
+    
+    motionSensor.on('change', function(res) 
+    {
+      if (res)
+      {
+        this.log('Motion Sensor: motion detected')
+        this.motionDetected = true;
+        this.service.setCharacteristic(Characteristic.MotionDetected, this.motionDetected);
+      }
+      else
+      {
+        this.motionDetected = false;
+        this.service.setCharacteristic(Characteristic.MotionDetected, this.motionDetected);
+      }
+    })
+
+    motionSensor.watch()
+  }
+
   getServices() {
     const informationService = new Service.AccessoryInformation();
 
@@ -39,40 +70,11 @@ class MotionSensor {
       });
 
       var board = new Board(
-        {
-          debug: true,
-          onError: function(err) 
-          {
-            console.log('Something wrong just happened')
-            console.log(err)
-          },
-          onInit: function(res) {
-            if (res) 
-            {
-              console.log('GrovePi Version :: ' + board.version())
-              board.pinMode(board.INPUT)
-              var motionSensor = new PirMotionSensor(3)
-              console.log('Motion Sensor (start watch)')
-              
-              motionSensor.on('change', function(res) 
-              {
-                if (res)
-                {
-                  console.log('Motion Sensor: motion detected')
-                  //this.motionDetected = true;
-                  //this.service.setCharacteristic(Characteristic.MotionDetected, this.motionDetected);
-                }
-                else
-                {
-                  //this.motionDetected = false;
-                  //this.service.setCharacteristic(Characteristic.MotionDetected, this.motionDetected);
-                }
-              })
-        
-              motionSensor.watch()
-            }
-          }
-        })
+      {
+        debug: true,
+        onError: this.motionError,
+        onInit: this.motionInit,
+      })
       
       board.init()
 
