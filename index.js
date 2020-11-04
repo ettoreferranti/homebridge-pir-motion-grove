@@ -10,6 +10,24 @@ module.exports = function(homebridge) {
   homebridge.registerAccessory('homebridge-pir-motion-sensor-grove', 'GroveMotionSensor', MotionSensor);
 };
 
+var board = new Board(
+  {
+      debug: true,
+      onError: function(err)
+      {
+        console.log('Something wrong just happened');
+        console.log(err);
+      },
+      onInit: function(res) 
+      {
+        if (res) 
+        {
+          console.log('GrovePi Version :: ' + board.version());
+          board.pinMode(board.INPUT);
+        }
+      }
+  });
+
 class MotionSensor {
 
   constructor(log, config) 
@@ -18,25 +36,8 @@ class MotionSensor {
     this.name = config.name;
     this.pirPin = config.pirPin;
     this.motionDetected = false;
-    this.board = new Board(
-    {
-        debug: true,
-        onError: function(err)
-        {
-          console.log('Something wrong just happened');
-          console.log(err);
-        },
-        onInit: function(res) 
-        {
-          if (res) 
-          {
-            console.log('GrovePi Version :: ' + board.version());
-            board.pinMode(board.INPUT);
-          }
-        }
-    });
-
-    this.board.init();
+    
+    board.init();
 
     this.motionSensor = new PirMotionSensor(this.pirPin);
     this.log('Motion Sensor (start watch)');
