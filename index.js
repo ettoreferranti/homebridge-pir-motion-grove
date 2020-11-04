@@ -48,8 +48,8 @@ class MotionSensor {
   {
     if (res) 
     {
-      console.log('GrovePi Version :: ' + this.version());
-      this.pinMode(this.INPUT);
+      console.log('GrovePi Version :: ' + board.version());
+      board.pinMode(board.INPUT);
     }
   }
 
