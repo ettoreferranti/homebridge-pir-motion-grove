@@ -11,11 +11,30 @@ module.exports = function(homebridge) {
 };
 
 class MotionSensor {
-  constructor(log, config) {
+  constructor(log, config) 
+  {
     this.log = log;
     this.name = config.name;
     this.pirPin = config.pirPin;
     this.motionDetected = false;
+
+    this.board = new Board(
+    {
+        debug: true,
+        onError: this.motionError,
+        onInit: this.motionInit,
+    });
+      
+    this.board.init();
+
+    this.log('GrovePi Version :: ' + board.version());
+    this.board.pinMode(board.INPUT);
+    this.motionSensor = new PirMotionSensor(this.pirPin);
+    this.log('Motion Sensor (start watch)');
+    
+    this.motionSensor.on('change', motionChange(res));
+
+    this.motionSensor.watch();
   }
 
   identify(callback) {
@@ -25,27 +44,15 @@ class MotionSensor {
 
   motionError(err) 
   {
-    this.log('Something wrong just happened')
-    this.log(err)
-  }
-
-  motionInit()
-  {
-    this.log('GrovePi Version :: ' + board.version())
-    board.pinMode(board.INPUT)
-    var motionSensor = new PirMotionSensor(3)
-    this.log('Motion Sensor (start watch)')
-    
-    motionSensor.on('change', motionChange(res))
-
-    motionSensor.watch()
+    this.log('Something wrong just happened');
+    this.log(err);
   }
 
   motionChange(res)
   {
     if (res)
     {
-      this.log('Motion Sensor: motion detected')
+      this.log('Motion Sensor: motion detected');
       this.motionDetected = true;
       this.service.setCharacteristic(Characteristic.MotionDetected, this.motionDetected);
     }
@@ -70,15 +77,6 @@ class MotionSensor {
       .on('get', (callback) => {
         callback(null, this.motionDetected);
       });
-
-      var board = new Board(
-      {
-        debug: true,
-        onError: this.motionError,
-        onInit: this.motionInit,
-      })
-      
-      board.init()
 
     this.service
       .getCharacteristic(Characteristic.Name)
