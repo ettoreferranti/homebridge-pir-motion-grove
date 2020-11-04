@@ -94,8 +94,6 @@ class MotionSensor {
         callback(null, this.name);
       });
 
-      this.startSensor();
-
     return [informationService, this.service];
   }
 }
