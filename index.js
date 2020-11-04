@@ -58,13 +58,14 @@ class MotionSensor {
               {
                 if (res)
                 {
-                  this.motionDetected = true;
-                  this.service.setCharacteristic(Characteristic.MotionDetected, this.motionDetected);
+                  console.log('Motion Sensor: motion detected')
+                  //this.motionDetected = true;
+                  //this.service.setCharacteristic(Characteristic.MotionDetected, this.motionDetected);
                 }
                 else
                 {
-                  this.motionDetected = false;
-                  this.service.setCharacteristic(Characteristic.MotionDetected, this.motionDetected);
+                  //this.motionDetected = false;
+                  //this.service.setCharacteristic(Characteristic.MotionDetected, this.motionDetected);
                 }
               })
         
@@ -74,8 +75,6 @@ class MotionSensor {
         })
       
       board.init()
-
-    
 
     this.service
       .getCharacteristic(Characteristic.Name)
