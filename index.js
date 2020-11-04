@@ -26,7 +26,14 @@ class MotionSensor {
           console.log('Something wrong just happened');
           console.log(err);
         },
-        onInit: this.initMethod
+        onInit: function(res) 
+        {
+          if (res) 
+          {
+            console.log('GrovePi Version :: ' + board.version());
+            board.pinMode(board.INPUT);
+          }
+        }
     });
 
     this.board.init();
@@ -42,15 +49,6 @@ class MotionSensor {
       }
     })
     this.motionSensor.watch();
-  }
-
-  initMethod(res)
-  {
-    if (res) 
-    {
-      console.log('GrovePi Version :: ' + board.version());
-      board.pinMode(board.INPUT);
-    }
   }
 
   identify(callback) 
