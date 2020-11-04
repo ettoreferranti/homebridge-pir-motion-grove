@@ -33,7 +33,10 @@ class MotionSensor {
         },
         onInit: this.initMethod
     });
-      
+  }
+
+  startSensor()
+  {
     this.board.init();
   }
 
@@ -87,6 +90,7 @@ class MotionSensor {
       .setCharacteristic(Characteristic.SerialNumber, 'Raspberry Pi');
 
     this.service = new Service.MotionSensor(this.name);
+    this.service.startSensor();
     this.service
       .getCharacteristic(Characteristic.MotionDetected)
       .on('get', (callback) => {
