@@ -21,31 +21,40 @@ class MotionSensor {
     this.board = new Board(
     {
         debug: true,
-        onError: this.motionError,
-        onInit: this.motionInit,
+        onError: function(err)
+        {
+          console.log('Something wrong just happened');
+          console.log(err);
+        },
+        onInit: function(res)
+        {
+          if (res) 
+          {
+            console.log('GrovePi Version :: ' + this.board.version());
+            board.pinMode(this.board.INPUT);
+            var motionSensor = new PirMotionSensor(3);
+            console.log('Motion Sensor (start watch)');
+    
+            motionSensor.on('change', function(res) 
+            {
+              if (res)
+              {
+                console.log('Motion detected')
+              }
+            })
+
+            motionSensor.watch();
+          }
+        }
     });
       
     this.board.init();
-
-    this.log('GrovePi Version :: ' + this.board.version());
-    this.board.pinMode(this.board.INPUT);
-    this.motionSensor = new PirMotionSensor(this.pirPin);
-    this.log('Motion Sensor (start watch)');
-    
-    this.motionSensor.on('change', this.motionChange);
-
-    this.motionSensor.watch();
   }
 
-  identify(callback) {
+  identify(callback) 
+  {
     this.log('Identify requested!');
     callback(null);
-  }
-
-  motionError(err) 
-  {
-    this.log('Something wrong just happened');
-    this.log(err);
   }
 
   motionChange(res)
