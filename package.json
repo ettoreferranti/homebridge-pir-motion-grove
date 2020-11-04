@@ -25,6 +25,7 @@
   "author": "Ettore Ferranti <ettore.ferranti@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "@abandonware/i2c": "^0.2.4-3",
     "grovepi": "^3.0.0"
   },
   "devDependencies": {

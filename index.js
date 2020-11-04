@@ -39,6 +39,8 @@ class MotionSensor {
     
     board.init();
 
+    var self = this;
+
     this.motionSensor = new PirMotionSensor(this.pirPin);
     this.log('Motion Sensor (start watch)');
 
@@ -46,11 +48,19 @@ class MotionSensor {
     {
       if (res)
       {
-        this.log('Motion detected')
+        self.log('Motion detected');
+        self.motionDetected = true;
       }
+      else
+      {
+        self.motionDetected = false;
+      }
+      self.service.setCharacteristic(Characteristic.MotionDetected, self.motionDetected);
     })
     this.motionSensor.watch();
   }
+
+
 
   identify(callback) 
   {
