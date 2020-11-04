@@ -33,10 +33,12 @@ class MotionSensor {
         },
         onInit: this.initMethod
     });
+    console.log("CONSTRUCTOR FINISHED");
   }
 
   startSensor()
   {
+    console.log("CALLING START");
     this.board.init();
   }
 
