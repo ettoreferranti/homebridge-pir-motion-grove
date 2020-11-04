@@ -90,7 +90,6 @@ class MotionSensor {
       .setCharacteristic(Characteristic.SerialNumber, 'Raspberry Pi');
 
     this.service = new Service.MotionSensor(this.name);
-    this.service.startSensor();
     this.service
       .getCharacteristic(Characteristic.MotionDetected)
       .on('get', (callback) => {
@@ -102,6 +101,8 @@ class MotionSensor {
       .on('get', callback => {
         callback(null, this.name);
       });
+
+      this.startSensor();
 
     return [informationService, this.service];
   }
