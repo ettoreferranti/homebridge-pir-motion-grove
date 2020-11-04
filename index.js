@@ -18,7 +18,7 @@ class MotionSensor {
     this.pirPin = config.pirPin;
     this.motionDetected = false;
 
-    this.board = new Board(
+    var board = new Board(
     {
         debug: true,
         onError: function(err)
@@ -48,7 +48,7 @@ class MotionSensor {
         }
     });
       
-    this.board.init();
+    board.init();
   }
 
   identify(callback) 
