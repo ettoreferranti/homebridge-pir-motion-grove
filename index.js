@@ -30,7 +30,7 @@ class MotionSensor {
         {
           if (res) 
           {
-            console.log('GrovePi Version :: ' + this.board.version());
+            console.log('GrovePi Version :: ' + board.version());
             board.pinMode(this.board.INPUT);
             var motionSensor = new PirMotionSensor(3);
             console.log('Motion Sensor (start watch)');
